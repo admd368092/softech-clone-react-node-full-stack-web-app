@@ -26,7 +26,27 @@ import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    // Close sidebar by default on mobile screens
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > 1024;
+    }
+    return true;
+  });
+
+  // Handle window resize to auto-close/open sidebar
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <AuthProvider>

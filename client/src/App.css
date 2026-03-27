@@ -504,6 +504,7 @@ textarea.form-control {
   
   .inventory-table {
     font-size: 0.875rem;
+    min-width: 100%;
   }
   
   .inventory-table th,
@@ -521,6 +522,10 @@ textarea.form-control {
 @media (max-width: 480px) {
   .hide-mobile-sm {
     display: none !important;
+  }
+  
+  .inventory-table {
+    min-width: 100%;
   }
   
   .inventory-table th,
@@ -1152,8 +1157,16 @@ textarea.form-control {
 
 @media (max-width: 768px) {
   :root {
-    --sidebar-width: 100%;
+    --sidebar-width: 280px;
     --header-height: 56px;
+  }
+  
+  .main-content {
+    margin-right: 0;
+  }
+  
+  .main-content.sidebar-closed {
+    margin-right: 0;
   }
   
   .sidebar-overlay {
@@ -1604,7 +1617,8 @@ textarea.form-control {
 }
 
 .table {
-  min-width: 800px;
+  min-width: 100%;
+  width: 100%;
 }
 
 /* Stats Grid Responsive */
@@ -1698,6 +1712,69 @@ textarea.form-control {
   padding: 16px;
 }
 
+/* Product Cell Styles */
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #e8f0fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.product-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.product-name {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-unit {
+  font-size: 0.75rem;
+  color: #5f6368;
+}
+
+/* Quantity Badge Styles */
+.quantity-badge {
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.quantity-badge.out-of-stock {
+  color: #ea4335;
+  background: rgba(234, 67, 53, 0.1);
+}
+
+.quantity-badge.low-stock {
+  color: #fbbc04;
+  background: rgba(251, 188, 4, 0.1);
+}
+
+.quantity-badge.in-stock {
+  color: #34a853;
+  background: rgba(52, 168, 83, 0.1);
+}
+
+/* Stock Button */
+.stock-btn {
+  color: #1a73e8 !important;
+}
+
 @media (max-width: 768px) {
   .inventory-page {
     padding: 12px;
@@ -1738,6 +1815,28 @@ textarea.form-control {
   
   .btn-text {
     display: none;
+  }
+  
+  .product-cell {
+    gap: 8px;
+  }
+  
+  .product-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .product-name {
+    font-size: 0.875rem;
+  }
+  
+  .product-unit {
+    font-size: 0.7rem;
+  }
+  
+  .quantity-badge {
+    font-size: 0.8rem;
+    padding: 2px 6px;
   }
 }
 
@@ -1787,5 +1886,29 @@ textarea.form-control {
   
   .modal-footer .btn {
     width: 100%;
+  }
+  
+  .product-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .product-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .product-name {
+    font-size: 0.8rem;
+  }
+  
+  .product-unit {
+    font-size: 0.65rem;
+  }
+  
+  .quantity-badge {
+    font-size: 0.75rem;
+    padding: 2px 4px;
   }
 }

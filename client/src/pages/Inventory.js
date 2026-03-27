@@ -356,21 +356,13 @@ const Inventory = () => {
                 filteredProducts.map((product) => (
                   <tr key={product._id}>
                     <td>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ 
-                          width: '40px', 
-                          height: '40px', 
-                          borderRadius: '8px',
-                          background: '#e8f0fe',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}>
+                      <div className="product-cell">
+                        <div className="product-icon">
                           {getStockIcon(product)}
                         </div>
-                        <div>
-                          <div style={{ fontWeight: '500' }}>{product.name}</div>
-                          <div style={{ fontSize: '0.75rem', color: '#5f6368' }}>
+                        <div className="product-info">
+                          <div className="product-name">{product.name}</div>
+                          <div className="product-unit">
                             {product.unit}
                           </div>
                         </div>
@@ -381,11 +373,10 @@ const Inventory = () => {
                     <td>{product.price.toLocaleString('ar-EG')} ج.م</td>
                     <td className="hide-mobile">{product.costPrice ? product.costPrice.toLocaleString('ar-EG') + ' ج.م' : '-'}</td>
                     <td>
-                      <span style={{ 
-                        fontWeight: '600',
-                        color: product.quantity === 0 ? '#ea4335' : 
-                               product.quantity <= product.minQuantity ? '#fbbc04' : '#34a853'
-                      }}>
+                      <span className={`quantity-badge ${
+                        product.quantity === 0 ? 'out-of-stock' : 
+                        product.quantity <= product.minQuantity ? 'low-stock' : 'in-stock'
+                      }`}>
                         {product.quantity}
                       </span>
                     </td>
@@ -394,10 +385,9 @@ const Inventory = () => {
                     <td>
                       <div className="action-buttons">
                         <button 
-                          className="action-btn"
+                          className="action-btn stock-btn"
                           onClick={() => openStockModal(product)}
                           title="تعديل المخزون"
-                          style={{ color: '#1a73e8' }}
                         >
                           <MdInventory />
                         </button>
