@@ -235,18 +235,18 @@ const Inventory = () => {
           <h1 className="page-title">إدارة المخزون</h1>
           <p className="page-subtitle">إدارة المنتجات والكميات في المخزون</p>
         </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className="header-actions">
           <button className="btn btn-secondary">
             <MdDownload />
-            تصدير
+            <span className="btn-text">تصدير</span>
           </button>
           <button className="btn btn-secondary">
             <MdUpload />
-            استيراد
+            <span className="btn-text">استيراد</span>
           </button>
           <button className="btn btn-primary" onClick={() => openModal()}>
             <MdAdd />
-            إضافة منتج
+            <span className="btn-text">إضافة منتج</span>
           </button>
         </div>
       </div>
@@ -295,7 +295,7 @@ const Inventory = () => {
       </div>
 
       {/* Search and Filter */}
-      <div className="search-filter">
+      <div className="search-filter-container">
         <div className="search-box">
           <MdSearch />
           <input
@@ -306,45 +306,47 @@ const Inventory = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="filter-box">
-          <select
-            className="form-control"
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-          >
-            <option value="">جميع الفئات</option>
-            {categories.map((cat, index) => (
-              <option key={index} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-        <div className="filter-box">
-          <select
-            className="form-control"
-            value={stockFilter}
-            onChange={(e) => setStockFilter(e.target.value)}
-          >
-            <option value="">جميع الحالات</option>
-            <option value="available">متوفر</option>
-            <option value="low">مخزون منخفض</option>
-            <option value="out">نفذ المخزون</option>
-          </select>
+        <div className="filter-group">
+          <div className="filter-box">
+            <select
+              className="form-control"
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <option value="">جميع الفئات</option>
+              {categories.map((cat, index) => (
+                <option key={index} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+          <div className="filter-box">
+            <select
+              className="form-control"
+              value={stockFilter}
+              onChange={(e) => setStockFilter(e.target.value)}
+            >
+              <option value="">جميع الحالات</option>
+              <option value="available">متوفر</option>
+              <option value="low">مخزون منخفض</option>
+              <option value="out">نفذ المخزون</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Products Table */}
       <div className="card">
         <div className="table-container">
-          <table className="table">
+          <table className="table inventory-table">
             <thead>
               <tr>
                 <th>المنتج</th>
-                <th>رمز المنتج</th>
-                <th>الفئة</th>
+                <th className="hide-mobile">رمز المنتج</th>
+                <th className="hide-mobile hide-mobile-sm">الفئة</th>
                 <th>سعر البيع</th>
-                <th>سعر التكلفة</th>
+                <th className="hide-mobile">سعر التكلفة</th>
                 <th>الكمية</th>
-                <th>الحد الأدنى</th>
+                <th className="hide-mobile hide-mobile-sm">الحد الأدنى</th>
                 <th>الحالة</th>
                 <th>الإجراءات</th>
               </tr>
@@ -374,10 +376,10 @@ const Inventory = () => {
                         </div>
                       </div>
                     </td>
-                    <td>{product.sku}</td>
-                    <td>{product.category}</td>
+                    <td className="hide-mobile">{product.sku}</td>
+                    <td className="hide-mobile hide-mobile-sm">{product.category}</td>
                     <td>{product.price.toLocaleString('ar-EG')} ج.م</td>
-                    <td>{product.costPrice ? product.costPrice.toLocaleString('ar-EG') + ' ج.م' : '-'}</td>
+                    <td className="hide-mobile">{product.costPrice ? product.costPrice.toLocaleString('ar-EG') + ' ج.م' : '-'}</td>
                     <td>
                       <span style={{ 
                         fontWeight: '600',
@@ -387,7 +389,7 @@ const Inventory = () => {
                         {product.quantity}
                       </span>
                     </td>
-                    <td>{product.minQuantity}</td>
+                    <td className="hide-mobile hide-mobile-sm">{product.minQuantity}</td>
                     <td>{getStockStatus(product)}</td>
                     <td>
                       <div className="action-buttons">
@@ -449,7 +451,7 @@ const Inventory = () => {
             </div>
             <form onSubmit={onSubmit}>
               <div className="modal-body">
-                <div className="grid grid-2">
+                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">اسم المنتج *</label>
                     <input
@@ -474,7 +476,7 @@ const Inventory = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-2">
+                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">الفئة *</label>
                     <input
@@ -498,7 +500,7 @@ const Inventory = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-2">
+                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">سعر البيع *</label>
                     <input
@@ -526,7 +528,7 @@ const Inventory = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-2">
+                <div className="form-grid">
                   <div className="form-group">
                     <label className="form-label">الكمية الحالية *</label>
                     <input
@@ -600,31 +602,33 @@ const Inventory = () => {
                   </div>
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">نوع العملية *</label>
-                  <select
-                    name="operation"
-                    className="form-control"
-                    value={stockData.operation}
-                    onChange={onStockChange}
-                    required
-                  >
-                    <option value="add">إضافة للمخزون</option>
-                    <option value="subtract">خصم من المخزون</option>
-                  </select>
-                </div>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label className="form-label">نوع العملية *</label>
+                    <select
+                      name="operation"
+                      className="form-control"
+                      value={stockData.operation}
+                      onChange={onStockChange}
+                      required
+                    >
+                      <option value="add">إضافة للمخزون</option>
+                      <option value="subtract">خصم من المخزون</option>
+                    </select>
+                  </div>
 
-                <div className="form-group">
-                  <label className="form-label">الكمية *</label>
-                  <input
-                    type="number"
-                    name="quantity"
-                    className="form-control"
-                    value={stockData.quantity}
-                    onChange={onStockChange}
-                    min="1"
-                    required
-                  />
+                  <div className="form-group">
+                    <label className="form-label">الكمية *</label>
+                    <input
+                      type="number"
+                      name="quantity"
+                      className="form-control"
+                      value={stockData.quantity}
+                      onChange={onStockChange}
+                      min="1"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div className="form-group">
