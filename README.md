@@ -205,6 +205,74 @@ softech-clone-react-node-full-stack-web-app/
 - `GET /api/dashboard/sales-chart` - بيانات الرسم البياني
 - `GET /api/dashboard/category-sales` - المبيعات حسب الفئة
 
+## النشر والتشغيل
+
+### النشر على Back4App
+
+لنشر التطبيق على Back4App، اتبع الخطوات التالية:
+
+1. **إنشاء حساب على Back4App**
+   - قم بزيارة [Back4App](https://www.back4app.com) وإنشاء حساب جديد
+
+2. **إنشاء تطبيق جديد**
+   - اضغط على "Build new app"
+   - اختر "Backend as a Service"
+   - اختر "Docker" كطريقة النشر
+   - أدخل اسم التطبيق (مثلاً: "softech-business-arabic")
+
+3. **تكوين MongoDB**
+   - اذهب إلى "Database" → "Browser"
+   - سيعطيك Back4App رابط اتصال MongoDB
+   - انسخ هذا الرابط للاستخدام لاحقاً
+
+4. **تكوين متغيرات البيئة**
+   - اذهب إلى "App Settings" → "Environment Variables"
+   - أضف المتغيرات التالية:
+     - `NODE_ENV`: production
+     - `PORT`: 5000
+     - `MONGODB_URI`: رابط MongoDB من Back4App
+     - `JWT_SECRET`: مفتاح سري قوي
+     - `JWT_EXPIRE`: 30d
+
+5. **النشر باستخدام Docker**
+   ```bash
+   # بناء صورة Docker
+   npm run docker:build
+   
+   # أو استخدام docker-compose
+   npm run docker:compose:build
+   ```
+
+6. **التحقق من النشر**
+   - انتظر حتى يكتمل النشر (عادة 2-5 دقائق)
+   - تحقق من سجلات النشر في لوحة تحكم Back4App
+   - افتح التطبيق على الرابط المقدم
+
+### النشر باستخدام Docker محلياً
+
+```bash
+# بناء صورة Docker
+npm run docker:build
+
+# تشغيل الحاوية
+npm run docker:run
+
+# أو استخدام docker-compose
+npm run docker:compose
+```
+
+### تعبئة قاعدة البيانات
+
+لتعبئة قاعدة البيانات ببيانات تجريبية:
+
+```bash
+# محلياً
+npm run seed
+
+# على Back4App (بعد تكوين MONGODB_URI)
+MONGODB_URI=<your-back4app-mongodb-uri> npm run seed
+```
+
 ## الدعم والمساعدة
 
 للمساعدة أو الإبلاغ عن مشاكل، يرجى التواصل مع فريق التطوير.

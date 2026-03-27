@@ -7,7 +7,8 @@ import {
   MdShoppingCart, 
   MdAssessment,
   MdAdd,
-  MdBusiness
+  MdBusiness,
+  MdClose
 } from 'react-icons/md';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
@@ -50,33 +51,49 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   ];
 
   return (
-    <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
-      <div className="sidebar-header">
-        <div className="sidebar-logo">
-          <MdBusiness />
-          <div>
-            <h1>سوفتك</h1>
-            <span>نظام إدارة الأعمال</span>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="sidebar-overlay"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
       
-      <nav className="sidebar-menu">
-        {menuItems.map((item, index) => (
-          <NavLink
-            key={index}
-            to={item.path}
-            className={({ isActive }) => 
-              `menu-item ${isActive ? 'active' : ''}`
-            }
-            onClick={() => window.innerWidth <= 1024 && setIsOpen(false)}
+      <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+        <div className="sidebar-header">
+          <div className="sidebar-logo">
+            <MdBusiness />
+            <div>
+              <h1>سوفتك</h1>
+              <span>نظام إدارة الأعمال</span>
+            </div>
+          </div>
+          <button 
+            className="sidebar-close"
+            onClick={() => setIsOpen(false)}
           >
-            {item.icon}
-            <span>{item.label}</span>
-          </NavLink>
-        ))}
-      </nav>
-    </aside>
+            <MdClose />
+          </button>
+        </div>
+        
+        <nav className="sidebar-menu">
+          {menuItems.map((item, index) => (
+            <NavLink
+              key={index}
+              to={item.path}
+              className={({ isActive }) => 
+                `menu-item ${isActive ? 'active' : ''}`
+              }
+              onClick={() => window.innerWidth <= 1024 && setIsOpen(false)}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 };
 

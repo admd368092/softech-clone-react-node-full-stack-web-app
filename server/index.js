@@ -32,6 +32,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/softech_b
   console.log('Please make sure MongoDB is running on your system');
 });
 
+// Health check endpoint for Docker
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);

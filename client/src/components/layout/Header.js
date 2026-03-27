@@ -20,7 +20,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
         >
           <MdMenu />
         </button>
-        <h2 className="header-title">نظام إدارة الأعمال الذكي</h2>
+        <h2 className="header-title">نظام إدارة الأعمال</h2>
       </div>
       
       <div className="header-right">
