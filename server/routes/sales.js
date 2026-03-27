@@ -75,6 +75,8 @@ router.get('/:id', protect, async (req, res) => {
       message: 'خطأ في الخادم',
       error: err.message
     });
+    console.log(err);
+    
   }
 });
 
@@ -108,6 +110,8 @@ router.post('/', [
 
     // Process items and check stock
     const processedItems = [];
+    let subtotal = 0;
+    
     for (const item of items) {
       const product = await Product.findById(item.product);
       if (!product) {
@@ -126,6 +130,7 @@ router.post('/', [
 
       // Calculate item total
       const itemTotal = (item.quantity * item.unitPrice) - (item.discount || 0);
+      subtotal += itemTotal;
 
       processedItems.push({
         product: product._id,
@@ -141,13 +146,20 @@ router.post('/', [
       await product.save();
     }
 
+    // Calculate total
+    const discountAmount = discount || 0;
+    const taxAmount = tax || 0;
+    const total = subtotal - discountAmount + taxAmount;
+
     // Create sale
     const sale = await Sale.create({
       customer,
       customerName: customerDoc.name,
       items: processedItems,
-      discount: discount || 0,
-      tax: tax || 0,
+      subtotal,
+      discount: discountAmount,
+      tax: taxAmount,
+      total,
       paymentMethod: paymentMethod || 'cash',
       notes,
       createdBy: req.user.id
@@ -169,6 +181,7 @@ router.post('/', [
       message: 'خطأ في الخادم',
       error: err.message
     });
+    console.log(err); 
   }
 });
 

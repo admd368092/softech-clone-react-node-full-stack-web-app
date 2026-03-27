@@ -34,8 +34,7 @@ const saleItemSchema = new mongoose.Schema({
 const saleSchema = new mongoose.Schema({
   invoiceNumber: {
     type: String,
-    unique: true,
-    required: true
+    unique: true
   },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
@@ -49,7 +48,6 @@ const saleSchema = new mongoose.Schema({
   items: [saleItemSchema],
   subtotal: {
     type: Number,
-    required: true,
     min: [0, 'المجموع الفرعي يجب أن يكون أكبر من أو يساوي صفر']
   },
   discount: {
@@ -64,7 +62,6 @@ const saleSchema = new mongoose.Schema({
   },
   total: {
     type: Number,
-    required: true,
     min: [0, 'الإجمالي يجب أن يكون أكبر من أو يساوي صفر']
   },
   paymentMethod: {

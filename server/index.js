@@ -27,7 +27,10 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/softech_b
   useUnifiedTopology: true,
 })
 .then(() => console.log('MongoDB Connected Successfully'))
-.catch(err => console.log('MongoDB Connection Error:', err));
+.catch(err => {
+  console.log('MongoDB Connection Error:', err);
+  console.log('Please make sure MongoDB is running on your system');
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -44,6 +47,16 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
   });
 }
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Error:', err.stack);
+  res.status(500).json({
+    success: false,
+    message: 'خطأ في الخادم',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 
