@@ -23,6 +23,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       label: 'المنتجات'
     },
     {
+      path: '/inventory',
+      icon: <MdInventory />,
+      label: 'المخزون'
+    },
+    {
       path: '/customers',
       icon: <MdPeople />,
       label: 'العملاء'
